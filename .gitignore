@@ -203,6 +203,9 @@ __marimo__/
 .streamlit/secrets.toml
 
 
+.idea/copilot.*
+
+
 ######### Added custom Cookiecutter PyPackage generated dirs here
 output/
 python_boilerplate/

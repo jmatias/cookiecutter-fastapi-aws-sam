@@ -1,0 +1,4 @@
+fileignoreconfig: []
+scopeconfig:
+  - scope: python
+version: "1.0"

@@ -3,7 +3,7 @@
 import typer
 from rich.console import Console
 
-from {{cookiecutter.project_slug}} import utils
+import utils
 
 app = typer.Typer()
 console = Console()
