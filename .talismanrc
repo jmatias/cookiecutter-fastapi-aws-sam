@@ -1,4 +1,6 @@
-fileignoreconfig: []
+fileignoreconfig:
+- filename: '{{cookiecutter.pypi_package_name}}/infra/template.yaml'
+  checksum: b01722ec351f97e749783f0463405a1ae454b6b45f94e7a7017a23cfcf71015b
 scopeconfig:
-  - scope: python
+- scope: python
 version: "1.0"

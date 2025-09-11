@@ -30,6 +30,7 @@ dependencies = [
     "typer>=0.16.0",
     "alabaster>=1.0.0",
     "watchdog>=6.0.0",
+    "fastapi[standard-no-fastapi-cloud-cli] (>=0.116.1,<0.117.0)",
 ]
 
 [project.optional-dependencies]

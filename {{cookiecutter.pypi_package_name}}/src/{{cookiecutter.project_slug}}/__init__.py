@@ -1,4 +1,3 @@
-"""Top-level package for {{ cookiecutter.project_name }}."""
+from {{cookiecutter.project_slug}}.version_utils import get_version_from_pyproject
 
-__author__ = """{{ cookiecutter.full_name }}"""
-__email__ = '{{ cookiecutter.email }}'
+version_str = get_version_from_pyproject()

@@ -14,14 +14,6 @@ license = {text = "MIT"}
 
 
 
-[project.urls]
-bugs = "https://github.com/{{cookiecutter.__gh_slug}}/issues"
-changelog = "https://github.com/{{cookiecutter.__gh_slug}}/blob/master/changelog.md"
-homepage = "https://github.com/{{cookiecutter.__gh_slug}}"
-
-
-
-
 #    ____   _____  ____   _____  _   _  ____   _____  _   _   ____  ___  _____  ____
 #   |  _ \ | ____||  _ \ | ____|| \ | ||  _ \ | ____|| \ | | / ___||_ _|| ____|/ ___|
 #   | | | ||  _|  | |_) ||  _|  |  \| || | | ||  _|  |  \| || |     | | |  _|  \___ \
@@ -33,11 +25,17 @@ requires-python = ">=3.12"
 
 dependencies = [
     "typer",
-    "fastapi[standard-no-fastapi-cloud-cli] (>=0.116.1,<0.117.0)"
+    "fastapi[standard-no-fastapi-cloud-cli] (>=0.116.1,<0.117.0)",
+    "mangum (>=0.19.0,<0.20.0)",
+    "faker (>=37.6.0,<38.0.0)"
+
 ]
+
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.17.1"
+pytest = "^8.4.2"
+pytest-cov = "^7.0.0"
 
 
 #    _      ___  _   _  _____  _____  ____
