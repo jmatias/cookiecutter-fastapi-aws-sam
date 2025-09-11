@@ -1,13 +1,12 @@
 import logging
 from contextlib import asynccontextmanager
-
 from fastapi import FastAPI
 from mangum import Mangum
 from starlette.middleware.cors import CORSMiddleware
 
 from {{cookiecutter.project_slug}} import version_str
 from {{cookiecutter.project_slug}}.config import swagger_servers, cors_origins, FASTAPI_ROOT_PATH
-from {{cookiecutter.project_slug}}.controllers import hello_world, activity
+from {{cookiecutter.project_slug}}.controllers import activity, fruits, vegetables
 
 logger = logging.getLogger("uvicorn.error")
 logger.setLevel(logging.INFO)
@@ -43,7 +42,20 @@ app.add_middleware(
 
 
 app.include_router(activity.router, prefix="/activities")
-app.include_router(hello_world.router)
+app.include_router(fruits.router, prefix="/fruits")
+app.include_router(vegetables.router, prefix="/vegetables")
+
+
+@app.get("/", operation_id="hello")
+def hello_world():
+    return {"message": "Hello, world!"}
+
+
+@app.post("/webhook", operation_id="webhook")
+def webhook(event: dict):
+    print("Webhook event received:", event)
+    return {"status": "success", "event": event}
+
 
 #################################################
 ######### FastAPI to AWS Lambda Adapter #########
