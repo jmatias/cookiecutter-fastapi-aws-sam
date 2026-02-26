@@ -15,4 +15,4 @@
 
 ## Credits
 
-This package was created with [Cookiecutter](https://github.com/audreyfeldroy/cookiecutter) and the [audreyfeldroy/cookiecutter-pypackage](https://github.com/audreyfeldroy/cookiecutter-pypackage) project template.
+This package was created with [Cookiecutter](https://github.com/audreyfeldroy/cookiecutter) and the [jmatias/cookiecutter-fastapi-aws-sam](https://github.com/audreyfeldroy/cookiecutter-pypackage) project template.

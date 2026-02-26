@@ -27,7 +27,7 @@ pip install -U cookiecutter
 Generate a Python package project:
 
 ```bash
-cookiecutter https://github.com/jmatias/cookiecutter-fastapi-aws-sam.git
+cookiecutter https://github.com/jmatias/cookiecutter-fastapi-aws-sam
 ```
 
 Then:
