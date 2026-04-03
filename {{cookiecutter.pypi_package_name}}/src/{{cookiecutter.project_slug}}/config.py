@@ -8,7 +8,7 @@ AWS_LAMBDA = os.getenv("AWS_LAMBDA_FUNCTION_NAME") is not None
 
 FASTAPI_ROOT_PATH = "/Dev" if AWS_LAMBDA else ""
 
-securiy_dependencies = []
+security_dependencies = []
 
 cors_origins = [
     "http://localhost:8000",

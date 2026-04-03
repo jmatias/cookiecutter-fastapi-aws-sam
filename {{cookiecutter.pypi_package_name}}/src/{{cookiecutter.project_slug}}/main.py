@@ -68,6 +68,6 @@ def handler(event, context):
     if "detail-type" in event and "detail" in event:
         # handle event
         print("Hello from Lambda! Event: ", event)
-        return {"statusCode": 200, "body": "Hello from Lambda!", event: event}
+        return {"statusCode": 200, "body": "Hello from Lambda!", "event": event}
     else:
         return Mangum(app, lifespan="on")(event, context)

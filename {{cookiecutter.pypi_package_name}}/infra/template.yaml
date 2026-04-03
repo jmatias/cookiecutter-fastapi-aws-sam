@@ -15,6 +15,13 @@ Globals:
       LogFormat: JSON
 Resources:
 
+  FastApiLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${AWS::StackName}-fastapi"
+      RetentionInDays: 30
+
+
   FastApi:
     # checkov:skip=CKV_AWS_120: Ensure API Gateway caching is enabled
     Type: AWS::Serverless::Api
@@ -31,14 +38,15 @@ Resources:
 
 
 
-
   FastApiFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Metadata:
       BuildMethod: makefile
     Properties:
+      LoggingConfig:
+        LogGroup: !Ref FastApiLogGroup
       CodeUri: ../
-      Handler: {{cookiecutter.project_slug}}.main.lambda_handler
+      Handler: {{cookiecutter.project_slug}}.main.handler
       Runtime: {{cookiecutter.runtime}}
       Architectures:
         - x86_64
