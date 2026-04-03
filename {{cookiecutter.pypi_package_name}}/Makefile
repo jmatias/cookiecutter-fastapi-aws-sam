@@ -3,7 +3,6 @@ build-FastApiFunction:
 	poetry lock
 	poetry export -f requirements.txt --output src/requirements.txt --without-hashes
 
-
 	pip install --platform manylinux2014_x86_64 \
 		--implementation cp \
 		--python-version "{{ cookiecutter.runtime.replace('python', '') }}" \

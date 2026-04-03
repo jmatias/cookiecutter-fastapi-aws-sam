@@ -5,11 +5,11 @@
 build:
     samlocal build --template-file infra/template.yaml --config-file samconfig.toml
 
-deploy-poc: build
-    @echo "Deploying to poc..."
+deploy-localstack: build
+    @echo "Deploying to localstack..."
 
-    samlocal deploy --config-file infra/samconfig.toml --no-confirm-changeset --stack-name fast-api-hello-world-poc
+    samlocal deploy --config-file infra/samconfig.toml --no-confirm-changeset
 
-delete-poc:
+delete-localstack:
     @echo "Deleting poc stack..."
-    samlocal delete --stack-name fast-api-hello-world-poc --region us-east-1
+    samlocal delete --stack-name {{cookiecutter.project_slug}} --region us-east-1

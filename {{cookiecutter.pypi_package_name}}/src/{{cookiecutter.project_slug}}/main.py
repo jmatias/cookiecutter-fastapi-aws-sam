@@ -26,11 +26,14 @@ app = FastAPI(
     lifespan=lifespan,
     title="FastAPI Example with AWS Lambda",
     description=description,
-    swagger_ui_parameters={"tryItOutEnabled": True, "operationsSorter": "method"},
+    swagger_ui_parameters={
+        "tryItOutEnabled": True,
+        "operationsSorter": "method",
+    },
     version=version_str,
     root_path=FASTAPI_ROOT_PATH,
-    root_path_in_servers=False,
-    servers=swagger_servers,
+    root_path_in_servers=True,  # This adds root_path to servers automatically
+    servers=swagger_servers if swagger_servers else None,
 )
 
 app.add_middleware(

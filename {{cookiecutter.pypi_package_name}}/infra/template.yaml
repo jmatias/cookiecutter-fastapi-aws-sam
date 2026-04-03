@@ -30,8 +30,6 @@ Resources:
       Name: Fastapi
 
       Description: "FastAPI gateway"
-      AlwaysDeploy: true
-
       StageName: Dev
       OpenApiVersion: '3.0' #fix for creating the default stage of api
       TracingEnabled: false
@@ -52,7 +50,9 @@ Resources:
         - x86_64
       Environment:
         Variables:
-          AWS_LAMBDA: True
+          AWS_LAMBDA: "true"
+          API_GATEWAY_STAGE: "Dev"
+          LOCALSTACK: "true"
       Events:
         ApiRoot:
           Type: Api
@@ -72,9 +72,8 @@ Outputs:
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   FastApi:
-    Description: API Gateway endpoint URL for Dev stage for Hello World
-      function
-    Value: !Sub "https://${FastApi}.execute-api.${AWS::Region}.amazonaws.com/Dev/"
+    Description: "API Gateway endpoint URL for Dev stage"
+    Value: !Sub "https://${FastApi}.execute-api.localhost.localstack.cloud:4566/Dev"
   HelloWorldFunction:
     Description: Hello World Lambda Function ARN
     Value: !GetAtt FastApiFunction.Arn
