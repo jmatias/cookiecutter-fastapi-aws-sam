@@ -1,6 +1,7 @@
 
 build-FastApiFunction:
-	poetry export -f requirements.txt --output requirements.txt --without-hashes
+	poetry lock
+	poetry export -f requirements.txt --output src/requirements.txt --without-hashes
 
 	cd src && pip install --platform manylinux2014_x86_64 \
 		--only-binary=:all: --upgrade --target "$(ARTIFACTS_DIR)" -r requirements.txt

@@ -39,7 +39,7 @@ Resources:
     Properties:
       CodeUri: ../
       Handler: {{cookiecutter.project_slug}}.main.lambda_handler
-      Runtime: python3.13
+      Runtime: {{cookiecutter.runtime}}
       Architectures:
         - x86_64
       Environment:
