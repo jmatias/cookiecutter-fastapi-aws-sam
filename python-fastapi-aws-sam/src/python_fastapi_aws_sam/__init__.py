@@ -1,3 +1,0 @@
-from python_fastapi_aws_sam.version_utils import get_version_from_pyproject
-
-version_str = get_version_from_pyproject()
