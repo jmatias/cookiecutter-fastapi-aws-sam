@@ -1,7 +1,11 @@
 
-build-FastApiFunction:
+clean:
+	rm -rf "$(ARTIFACTS_DIR)"
+
+build-FastApiFunction: clean
 	poetry lock
 	poetry export -f requirements.txt --output src/requirements.txt --without-hashes
+	rm -rf "$(ARTIFACTS_DIR)"
 
 	pip install --platform manylinux2014_x86_64 \
 		--implementation cp \

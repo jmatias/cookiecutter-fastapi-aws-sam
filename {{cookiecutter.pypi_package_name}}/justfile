@@ -1,15 +1,36 @@
-# Justfile for fast-api-hello-world
+# Justfile for {{cookiecutter.pypi_package_name}}
 
-# Show available commands
+# LocalStack deployment recipes
 
-build:
-    samlocal build --template-file infra/template.yaml --config-file samconfig.toml
+build-localstack:
+      #!/usr/bin/env bash
+      set -e
+      # LocalStack uses AWS_ACCESS_KEY_ID as account ID when it's a 12-digit number
+      export AWS_ACCESS_KEY_ID=000000000000
+      export AWS_SECRET_ACCESS_KEY=test
+      samlocal build --template-file infra/template.yaml --config-file samconfig.toml
 
-deploy-localstack: build
-    @echo "Deploying to localstack..."
-
-    samlocal deploy --config-file infra/samconfig.toml --no-confirm-changeset
+deploy-localstack: build-localstack
+      #!/usr/bin/env bash
+      set -e
+      # LocalStack uses AWS_ACCESS_KEY_ID as account ID when it's a 12-digit number
+      export AWS_ACCESS_KEY_ID=000000000000
+      export AWS_SECRET_ACCESS_KEY=test
+      samlocal deploy --config-file infra/samconfig.toml --no-confirm-changeset
 
 delete-localstack:
-    @echo "Deleting poc stack..."
-    samlocal delete --stack-name {{cookiecutter.project_slug}} --region us-east-1
+    @echo "Deleting stack from LocalStack..."
+    samlocal delete --stack-name {{cookiecutter.pypi_package_name}} --region us-east-1
+
+# AWS deployment recipes
+
+build:
+    sam build --template-file infra/template.yaml --config-file samconfig.toml
+
+deploy: build
+    @echo "Deploying to AWS..."
+    sam deploy --config-file infra/samconfig.toml --no-confirm-changeset
+
+delete:
+    @echo "Deleting stack from AWS..."
+    sam delete --stack-name {{cookiecutter.pypi_package_name}} --region us-east-1

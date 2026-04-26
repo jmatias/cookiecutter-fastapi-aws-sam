@@ -73,10 +73,10 @@ Outputs:
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   FastApi:
     Description: "API Gateway endpoint URL for Dev stage"
-    Value: !Sub "https://${FastApi}.execute-api.localhost.localstack.cloud:4566/Dev"
+    Value: !Sub "https://${FastApi}.execute-api.${AWS::Region}.amazonaws.com/Dev"
+  FastApiLocalStack:
+    Description: "API Gateway endpoint URL for Dev stage (LocalStack)"
+    Value: !Sub "http://${FastApi}.execute-api.localhost.localstack.cloud:4566/Dev"
   HelloWorldFunction:
     Description: Hello World Lambda Function ARN
-    Value: !GetAtt FastApiFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: Implicit IAM Role created for Hello World function
     Value: !GetAtt FastApiFunction.Arn
