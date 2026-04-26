@@ -49,12 +49,11 @@ Ready to contribute? Here's how to set up `{{ cookiecutter.project_slug }}` for 
    git clone git@github.com:your_name_here/{{ cookiecutter.project_slug }}.git
    ```
 
-3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development:
+3. Install your local copy with Poetry:
 
    ```sh
-   mkvirtualenv {{ cookiecutter.project_slug }}
    cd {{ cookiecutter.project_slug }}/
-   python setup.py develop
+   poetry install
    ```
 
 4. Create a branch for local development:
@@ -65,16 +64,12 @@ Ready to contribute? Here's how to set up `{{ cookiecutter.project_slug }}` for 
 
    Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass flake8 and the tests, including testing other Python versions with tox:
+5. When you're done making changes, check that your changes pass linting and tests:
 
    ```sh
-   make lint
-   make test
-   # Or
-   make test-all
+   poetry run ruff check .
+   poetry run pytest
    ```
-
-   To get flake8 and tox, just pip install them into your virtualenv.
 
 6. Commit your changes and push your branch to GitHub:
 
@@ -107,9 +102,8 @@ pytest tests.test_{{ cookiecutter.project_slug }}
 A reminder for the maintainers on how to deploy. Make sure all your changes are committed (including an entry in HISTORY.md). Then run:
 
 ```sh
-bump2version patch # possible: major / minor / patch
-git push
-git push --tags
+git tag -a v0.x.x -m "Release v0.x.x"
+git push origin v0.x.x
 ```
 
 You can set up a [GitHub Actions workflow](https://docs.github.com/en/actions/use-cases-and-examples/building-and-testing/building-and-testing-python#publishing-to-pypi) to automatically deploy your package to PyPI when you push a new tag.
