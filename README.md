@@ -63,7 +63,7 @@ my-api/
 
 ```bash
 cd my-api
-uv sync                      # Install dependencies
+poetry install               # Install dependencies
 uvicorn my_api.main:app --reload  # Run locally
 ```
 

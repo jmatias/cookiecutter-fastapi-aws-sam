@@ -28,7 +28,7 @@ just coverage                # Run coverage and build HTML report
 
 ### Build & Release
 ```bash
-just build                   # Build package (uv build)
+just build                   # Build package (poetry build)
 just version                 # Show current version
 just tag                     # Git tag and push current version
 ```
@@ -89,7 +89,7 @@ just delete-localstack       # Delete stack from LocalStack
 
 ## Conventions
 
-- **Python**: 3.12+ (runtime selectable: 3.12, 3.13, 3.14), uv for dependency management
+- **Python**: 3.12+ (runtime selectable: 3.12, 3.13, 3.14), Poetry for dependency management
 - **Formatting**: ruff (Black-compatible), line-length 100
 - **Type hints**: Use `Optional[T]` over `T | None`
 - **Testing**: pytest with markers: `unit`, `integration`, `aat`

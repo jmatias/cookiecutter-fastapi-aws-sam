@@ -2,11 +2,7 @@
 
 ## Before Your First Release
 
-1. Register the package on PyPI:
-
-    ```bash
-    python setup.py register
-    ```
+1. Register the package on PyPI using `poetry publish`
 
 2. Visit PyPI to make sure it registered.
 
@@ -23,19 +19,19 @@
 3. Update version number (can also be minor or major):
 
     ```bash
-    uv version --bump patch
+    poetry version patch
     ```
 
-4. Install the package again for local development, but with the new version number:
+4. Install the package again for local development:
 
     ```bash
-    python setup.py develop
+    poetry install
     ```
 
 5. Run the tests:
 
     ```bash
-    tox
+    poetry run pytest
     ```
 
 6. Push the commit:

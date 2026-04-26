@@ -3,7 +3,7 @@ list:
     @just --list
 
 # Generate project using defaults
-bake BAKE_OPTIONS="--no-input":  
+bake BAKE_OPTIONS="--no-input":
     cookiecutter {{BAKE_OPTIONS}} . --overwrite-if-exists
 
 # Watch for changes
@@ -13,11 +13,6 @@ watch BAKE_OPTIONS="--no-input": bake
         -c 'just bake {{BAKE_OPTIONS}}' \
         -W -R -D {{'{{cookiecutter.project_slug}}'}}
 
-# replay: BAKE_OPTIONS="--replay"
-# replay: watch
-# 	;
-
-
 # Show available commands
 help:
     just --list
@@ -26,7 +21,7 @@ help:
 build:
     rm -rf build
     rm -rf dist
-    uv build
+    poetry build
 
 VERSION := `grep -m1 '^version' pyproject.toml | sed -E 's/version = "(.*)"/\1/'`
 
@@ -43,46 +38,43 @@ tag:
 # Run all the tests, but allow for arguments to be passed
 test *ARGS:
     @echo "Running with arg: {{ARGS}}"
-    uv run --python=3.13 --extra dev pytest {{ARGS}}
+    poetry run pytest {{ARGS}}
 
 # Run all the tests, but on failure, drop into the debugger
 pdb *ARGS:
     @echo "Running with arg: {{ARGS}}"
-    uv run --python=3.13 --with pytest --with httpx pytest --pdb --maxfail=10 --pdbcls=IPython.terminal.debugger:TerminalPdb {{ARGS}}
+    poetry run pytest --pdb --maxfail=10 --pdbcls=IPython.terminal.debugger:TerminalPdb {{ARGS}}
 
 # Run all the formatting, linting, type checking, and testing commands
 qa:
-    uv run --python=3.13 --extra test ruff format .
-    uv run --python=3.13 --extra test ruff check . --fix
-    uv run --python=3.13 --extra test ruff check --select I --fix .
-    uv run --python=3.13 --extra test ty check .
-    uv run --python=3.13 --extra test pytest .
+    poetry run ruff format .
+    poetry run ruff check . --fix
+    poetry run ruff check --select I --fix .
+    poetry run mypy .
+    poetry run pytest .
 
 # Run all the checks for CI
 ci:
-    uv run --python=3.13 --extra test ruff format --check .
-    uv run --python=3.13 --extra test ruff check .
-    uv run --python=3.13 --extra test ruff check --select I .
-    uv run --python=3.13 --extra test ty check .
-    uv run --python=3.13 --extra test pytest .
+    poetry run ruff format --check .
+    poetry run ruff check .
+    poetry run ruff check --select I .
+    poetry run mypy .
+    poetry run pytest .
 
 # Run all the tests for all the supported Python versions
 testall:
-    uv run --python=3.10 --extra test pytest
-    uv run --python=3.11 --extra test pytest
-    uv run --python=3.12 --extra test pytest
-    uv run --python=3.13 --extra test pytest
+    tox
 
 # Run coverage, and build to HTML
 coverage:
-    uv run --python=3.13 --extra test coverage run -m pytest .
-    uv run --python=3.13 --extra test coverage report -m
-    uv run --python=3.13 --extra test coverage html
+    poetry run coverage run -m pytest .
+    poetry run coverage report -m
+    poetry run coverage html
 
 # Serve docs locally
 doc:
-    uv run --extra docs mkdocs serve -a localhost:3000
+    poetry run mkdocs serve -a localhost:3000
 
 # Build and deploy docs
 doc-build:
-    uv run --extra docs mkdocs gh-deploy --force
+    poetry run mkdocs gh-deploy --force

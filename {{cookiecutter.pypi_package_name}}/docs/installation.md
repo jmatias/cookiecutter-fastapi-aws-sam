@@ -5,7 +5,7 @@
 To install {{ cookiecutter.project_name }}, run this command in your terminal:
 
 ```sh
-uv add {{ cookiecutter.pypi_package_name }}
+poetry add {{ cookiecutter.pypi_package_name }}
 ```
 
 Or if you prefer to use `pip`:
@@ -34,5 +34,5 @@ Once you have a copy of the source, you can install it with:
 
 ```sh
 cd {{ cookiecutter.project_slug }}
-uv pip install .
+poetry install
 ```
