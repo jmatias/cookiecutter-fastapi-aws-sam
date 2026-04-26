@@ -1,10 +1,7 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 ## Project Overview
 
-This is a **Cookiecutter template** for generating FastAPI projects deployable to AWS Lambda via SAM. The template uses Mangum as the ASGI adapter for AWS Lambda.
+This is a **Cookiecutter template** for generating FastAPI projects deployable to AWS Lambda via SAM.
+The template uses Mangum as the ASGI adapter for AWS Lambda.
 
 **Key distinction**: There are two levels to this project:
 1. **Template level** (this repo): The cookiecutter template itself with `{{cookiecutter.*}}` placeholders
@@ -17,7 +14,6 @@ This is a **Cookiecutter template** for generating FastAPI projects deployable t
 just bake                    # Generate project using defaults (--no-input)
 just bake --replay           # Regenerate with previous inputs
 just watch                   # Auto-regenerate on template changes
-python run.py                # Alternative: watch with auto-regenerate
 ```
 
 ### Quality Assurance (this repo)
@@ -52,12 +48,17 @@ just doc-build               # Build and deploy docs to GitHub Pages
 │   ├── main.py              # FastAPI app + AWS Lambda handler
 │   ├── config.py            # Environment config (AWS_LAMBDA detection, CORS)
 │   ├── model.py             # Pydantic models
-│   ├── controllers/         # FastAPI routers (one per resource)
+│   ├── controllers/         # FastAPI routers (fruits, vegetables, activity)
 │   ├── cli.py               # Typer CLI app
+│   ├── utils.py             # Utility functions
 │   └── version_utils.py     # Dynamic version from pyproject.toml
 ├── tests/
-├── pyproject.toml           # poetry-core backend, dependencies
-└── justfile                 # Generated project commands
+├── infra/
+│   ├── template.yaml        # SAM template for Lambda + API Gateway
+│   └── samconfig.toml       # SAM deployment config
+├── pyproject.toml
+├── justfile                 # Generated project commands (build, deploy)
+└── Makefile                 # SAM build helper
 ```
 
 ### FastAPI/Lambda Integration Pattern
@@ -74,22 +75,37 @@ def handler(event, context):
         return Mangum(app, lifespan="on")(event, context)
 ```
 
+### Generated Project Commands
+```bash
+just build                   # SAM build with LocalStack
+just deploy-localstack       # Deploy to LocalStack
+just delete-localstack       # Delete stack from LocalStack
+```
+
 ### Config Auto-Detection
-`config.py` detects Lambda environment via `AWS_LAMBDA_FUNCTION_NAME` env var and adjusts:
+`config.py` detects Lambda environment via `AWS_LAMBDA` env var and adjusts:
 - `FASTAPI_ROOT_PATH`: Set to "/Dev" in Lambda for API Gateway stage prefix
 - Swagger servers list includes localhost and SAM local endpoints
 
 ## Conventions
 
-- **Python**: 3.12+, Black formatting (line-length 100), uv for dependency management
+- **Python**: 3.12+ (runtime selectable: 3.12, 3.13, 3.14), uv for dependency management
+- **Formatting**: ruff (Black-compatible), line-length 100
 - **Type hints**: Use `Optional[T]` over `T | None`
 - **Testing**: pytest with markers: `unit`, `integration`, `aat`
 - **Controllers**: Each resource gets its own router file in `controllers/`, mounted with prefix in `main.py`
 - **Models**: Pydantic models with `model_config` for JSON schema examples
+- **IaC**: AWS SAM templates in `infra/`, LocalStack for local development
 
 ## Cookiecutter Variables
 
 From `cookiecutter.json`:
+- `full_name`: Author's full name
+- `email`: Author's email
+- `github_username`: GitHub username (used for `__gh_slug`)
 - `pypi_package_name`: Package name (used for directory names)
 - `project_slug`: Python module name (auto-derived: hyphens → underscores)
-- `github_username`: Used for `__gh_slug`
+- `project_name`: Human-readable project name
+- `project_short_description`: One-line project description
+- `runtime`: Lambda runtime selection (python3.12, python3.13, python3.14)
+- `first_version`: Initial version number

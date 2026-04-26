@@ -1,20 +1,21 @@
-# Cookiecutter PyPackage
+# Cookiecutter FastAPI AWS SAM
 
-[![PyPI version](https://img.shields.io/pypi/v/cookiecutter-pypackage.svg)](https://pypi.python.org/pypi/cookiecutter-pypackage)
-[![PyPI downloads](https://img.shields.io/pypi/dm/cookiecutter-pypackage.svg)](https://pypi.python.org/pypi/cookiecutter-pypackage)
+[Cookiecutter](https://github.com/cookiecutter/cookiecutter) template for a FastAPI project deployable to AWS Lambda via SAM.
 
-[Cookiecutter](https://github.com/cookiecutter/cookiecutter) template for a Python package.
-
-*   GitHub repo: [https://github.com/jmatias/cookiecutter-fastapi-aws-sam/](https://github.com/audreyfeldroy/cookiecutter-pypackage/)
-*   Free software: MIT license
-*   Discord: [https://discord.gg/PWXJr3upUE](https://discord.gg/PWXJr3upUE)
+* GitHub repo: https://github.com/jmatias/cookiecutter-fastapi-aws-sam
+* Free software: MIT license
 
 ## Features
 
-*   Testing setup with pytest
-*   GitHub Actions testing: Setup to easily test for Python 3.10, 3.11, 3.12, and 3.13
-*   Auto-release to [PyPI](https://pypi.python.org/pypi) when you push a new tag to master (optional)
-*   Command line interface using Typer
+* **FastAPI** with automatic OpenAPI/Swagger documentation
+* **AWS Lambda** deployment via SAM with Mangum adapter
+* **Dual-mode handler**: API Gateway requests and EventBridge events
+* **LocalStack** support for local development and testing
+* **Runtime selection**: Python 3.12, 3.13, or 3.14
+* Testing setup with pytest (unit, integration, aat markers)
+* GitHub Actions CI for Python 3.11, 3.12, and 3.13
+* Typer CLI included
+* CORS middleware configured
 
 ## Quickstart
 
@@ -30,28 +31,52 @@ Generate a Python package project:
 cookiecutter https://github.com/jmatias/cookiecutter-fastapi-aws-sam
 ```
 
-Then:
+You'll be prompted for:
+- `full_name`: Your name
+- `email`: Your email
+- `github_username`: Your GitHub username
+- `pypi_package_name`: Package name (e.g., `my-api`)
+- `runtime`: Lambda Python runtime (python3.12, python3.13, python3.14)
+- `project_name`: Human-readable name
+- `project_short_description`: One-line description
 
-*   Create a repo and put it there.
-*   [Register](https://packaging.python.org/tutorials/packaging-projects/#uploading-the-distribution-archives) your project with PyPI.
-*   Add the repo to your [Read the Docs](https://readthedocs.io/) account + turn on the Read the Docs service hook.
-*   Release your package by pushing a new tag to master.
+## Generated Project Structure
 
-## Not Exactly What You Want?
+```
+my-api/
+├── src/my_api/
+│   ├── main.py              # FastAPI app + Lambda handler
+│   ├── config.py            # Environment detection
+│   ├── controllers/         # API routers
+│   └── ...
+├── tests/
+├── infra/
+│   ├── template.yaml        # SAM template
+│   └── samconfig.toml       # SAM config
+├── justfile                 # Build commands
+└── pyproject.toml
+```
 
-Don't worry, you have options:
+## Using the Generated Project
 
-### Fork This / Create Your Own
+### Local Development
 
-If you have differences in your preferred setup, I encourage you to fork this
-to create your own version. Or create your own; it doesn't strictly have to
-be a fork.
+```bash
+cd my-api
+uv sync                      # Install dependencies
+uvicorn my_api.main:app --reload  # Run locally
+```
 
-### Similar Cookiecutter Templates
+### Deploy to LocalStack
 
-Explore other forks to get ideas. See the [network](https://github.com/audreyfeldroy/cookiecutter-pypackage/network) and [family tree](https://github.com/audreyfeldroy/cookiecutter-pypackage/network/members) for this repo.
+```bash
+just build                   # Build with SAM
+just deploy-localstack       # Deploy to LocalStack
+```
 
-### Or Submit a Pull Request
+### Run Tests
 
-I also accept pull requests on this, if they're small, atomic, and if they
-make my own packaging experience better.
+```bash
+pytest                       # Run all tests
+pytest -m unit               # Run unit tests only
+```
